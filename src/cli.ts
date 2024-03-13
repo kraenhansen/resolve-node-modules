@@ -22,12 +22,16 @@ const options = program
       excludeGitIgnored: !includeGitIgnored,
       excludePatterns: new Set(exclude),
     }).then((replacements) => {
-      console.log("\nReplacements:");
-      for (const [path, replacementsInFile] of Object.entries(replacements)) {
-        console.log(chalk.dim(path));
-        for (const { from, to } of replacementsInFile) {
-          console.log(`  '${from}' → '${to}'`);
+      if (Object.keys(replacements).length > 0) {
+        console.log("\nReplacements:");
+        for (const [path, replacementsInFile] of Object.entries(replacements)) {
+          console.log(chalk.dim(path));
+          for (const { from, to } of replacementsInFile) {
+            console.log(`  '${from}' → '${to}'`);
+          }
         }
+      } else {
+        console.log("\nFound no occurances of 'node_module'.");
       }
     }, (err) => {
       process.exitCode = 1;
